@@ -1,8 +1,55 @@
 import sys
+import math
+
+class MaxHeap:
+
+    def __init__(self):
+        self.heap = []
+        self.length = 0
+        self.heap_size = 0
+
+    def parent(self,i):
+        return math.ceil(i/2) - 1
+
+    def right(self,i):
+        return 2*i + 1
+
+    def left(self,i):
+        return 2*i + 2
+
+    def max_heapify(self,i):
+        l = self.left(i)
+        r = self.right(i)
+        if l <= self.heap_size - 1 and self.heap[l] > self.heap[i]:
+            largest = l
+        else:
+            largest = i
+        if r <= self.heap_size - 1 and self.heap[r] > self.heap[largest]:
+            largest = r
+        if largest != i:
+            self.heap[i],self.heap[largest] = self.heap[largest], self.heap[i]
+            self.max_heapify(largest)
+
+    def build_max_heap(self,A):
+        self.heap_size = len(A)
+        self.heap = A
+        self.length = len(A)
+        start = math.floor(self.heap_size/2 - 1)
+        for i in range(start,-1,-1):
+            self.max_heapify(i)
+
+def heapsort(a):
+    A = MaxHeap()
+    A.build_max_heap(a)
+    size = len(a)
+    for i in range(size - 1,0,-1):
+        A.heap[0],A.heap[i] = A.heap[i], A.heap[0]
+        A.heap_size = A.heap_size - 1
+        A.max_heapify(0)
+    return A.heap
 
 def quicksort(a):
     size = len(a)
-    print(a)
     if size > 1:
         r = size - 1
         x = a[r]
@@ -39,13 +86,15 @@ def mergesort(a):
         a = b
     return a
 
-def heapsort(a):
-    print(a)
-
 def main():
     arr = [3,2,1,4,7,2,5]
+    arr2 = [1,2,3,4,3]
     print(quicksort(arr))
     print(mergesort(arr))
+    print(mergesort(arr2))
+    print(quicksort(arr2))
+    print(heapsort(arr2))
+    print(heapsort(arr))
 
 if __name__ == '__main__':
     sys.exit(main())
