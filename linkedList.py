@@ -29,14 +29,57 @@ class LinkedList:
     def delete_front(self):
         self.head = self.head.next
 
+    def print(self):
+        string = ''
+        temp = self.head
+        while temp:
+            string += str(temp.value)
+            temp = temp.next
+            string += ' - > '
+        string += 'None'
+        print(string)
 
 class Node:
     def __init__(self,value):
         self.value = value
         self.next = None
 
+    def print(self):
+        string = ''
+        temp = self
+        while temp:
+            string += str(temp.value)
+            temp = temp.next
+            string += ' - > '
+        string += 'None'
+        print(string)
+
+def reversell(llist):
+    current = llist.head
+    nextNode = current.next
+    current.next = None
+    prev = current.next
+    while nextNode:
+        prev = current
+        current = nextNode
+        nextNode = current.next
+        current.next = prev
+    llist.head = current
+    return llist
+
 def main():
-    print(1)
+    Node1 = Node(1)
+    Node2 = Node(2)
+    Node3 = Node(3)
+    Node4 = Node(4)
+    myList = LinkedList(Node1)
+    myList.append(Node2)
+    myList.append(Node3)
+    myList.append(Node4)
+    myList.print()
+    newList = reversell(myList)
+    newList.print()
+
 
 if __name__ == "__main__":
     sys.exit(main())
